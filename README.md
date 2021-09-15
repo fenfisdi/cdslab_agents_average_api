@@ -1,2 +1,2 @@
-# cdslib_agents_average_api
+# cdslab_agents_average_api
 Agents average simulation API

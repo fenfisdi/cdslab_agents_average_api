@@ -27,16 +27,25 @@ class ListBucketFile:
         return list(filter(regex.match, path_list))
 
 
-class GetBucketFile:
+class GetBucketFiles:
     bucket_name = environ.get("GCP_BUCKET_NAME")
     storage_client = storage.Client()
 
     @classmethod
-    def handle(cls, paths: List[str]):
-        [cls.__get_file(path) for path in paths]
+    def handle(cls, paths: List[str]) -> List[bytes]:
+        return [cls.__get_file(path) for path in paths]
 
     @classmethod
     def __get_file(cls, path: str) -> Optional[bytes]:
         bucket = cls.storage_client.bucket(cls.bucket_name)
         blob = bucket.blob(path)
         return blob.download_as_string()
+
+
+class ProcessInformation:
+
+    @classmethod
+    def handle(cls, paths: List[str]):
+        files = GetBucketFiles.handle(paths)
+
+        #TODO: Process Information
